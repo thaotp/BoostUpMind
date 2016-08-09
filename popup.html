@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <link type="text/css" href="popup.css" rel="stylesheet">
+  <script type="text/javascript" src="tmpl.min.js"></script>
+  <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+  <script type="text/javascript" src="popup.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <div class='header'>
+      <select id="js-lesson" class="pure-input-1-2 js-select">
+        <option value='1'>1</option>
+        <option value='2'>2</option>
+        <option value='3'>3</option>
+        <option value='4'>4 </option>
+        <option value='5'>5 </option>
+        <option value='6'>6 </option>
+        <option value='7'>7 </option>
+        <option value='8'>8 </option>
+        <option value='9'>9 </option>
+        <option value='10'>10 </option>
+        <option value='11'>11 </option>
+      </select>
+      <select id="js-type" class="pure-input-1-2 js-select">
+        <option value='word'>Word</option>
+        <option value='shadow'>Shadow</option>
+        <option value='kanji'>Kanji</option>
+        <option value='grammar'>Grammar</option>
+      </select>
+    </div>
+    <div class="content">
+      <ul id="js-w">
+
+      </ul>
+    </div>
+  </div>
+</body>
+<script type="text/x-tmpl" id="js-words">
+  <li>
+    <a href="javascript:void(0)" class='js-in'>
+      <ruby>
+        <rb class='text-style'>
+           .{%= o.name_jp %}
+        </rb>
+        <rp>/</rp>
+        <rt>{%= o.romanji %}</rt>
+      </ruby>
+      <span>{%= o.mean %}</span>
+      <div class='span'>{%= o.kanji%} {%= o.kanji_note %}</div>
+      <input class='js-inp input-type' data-index='{%= o.index %}' data-correct='{%= o.name_jp %}' type='text'/>
+    </a>
+  </li>
+</script>
+<script type="text/x-tmpl" id="js-shadow">
+  <li>
+    <a href="javascript:void(0)" class='js-in'>
+      <ruby>
+        <rb class='shadow'>
+           {%= o.answer %}-{%= o.answer_romaji %}
+        </rb>
+        <rp>/</rp>
+        <rt>{%= o.index %}.{%= o.question %} - {%= o.question_romaji %}</rt>
+      </ruby>
+
+    </a>
+  </li>
+</script>
+
+</html>

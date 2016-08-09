@@ -1,0 +1,106 @@
+html {
+
+  text-rendering: optimizeLegibility !important;
+
+  -webkit-font-smoothing: antialiased !important;
+
+}
+html{
+  height: 600px;
+}
+body{
+  height: 600px;
+  overflow:scroll
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+li:last-child {
+  border: none;
+}
+
+li a {
+  position: relative;
+  text-decoration: none;
+  color: #000;
+
+  -webkit-transition: font-size 0.1s ease, background-color 0.1s ease;
+  -moz-transition: font-size 0.1s ease, background-color 0.1s ease;
+  -o-transition: font-size 0.1s ease, background-color 0.1s ease;
+  -ms-transition: font-size 0.1s ease, background-color 0.1s ease;
+  transition: font-size 0.1s ease, background-color 0.1s ease;
+  display: block;
+  width: 100%;
+}
+
+li a:hover {
+  font-size: 25px;
+  background: #f6f6f6;
+}
+
+
+rt{
+  width: 100%;
+  text-align: left;
+  font-size: 17px;
+  font-weight: 500;
+  color: darkblue;
+}
+rb{
+  /*color: darkblue;*/
+  /*font-weight: 500;*/
+}
+li span{
+  font-size: 16px;
+  display: block;
+  width: 150px;
+  color: red;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+li .span{
+  position: absolute;
+  right: 0;
+  top: 15px;
+  text-align: right;
+  color: red;
+  font-size: 16px;
+}
+
+li a:hover span{
+  overflow: initial;
+  text-overflow: initial;
+}
+
+select{
+  width: 70px;
+}
+rb.shadow{
+  font-size: 16px;
+  color: red;
+}
+.input-type{
+  width: 393px;
+  height: 18px;
+  font-size: 16px;
+  display: none;
+}
+.header{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #888;
+  margin-bottom: 5px;
+}
+
+.container{
+  width: 400px;
+}
