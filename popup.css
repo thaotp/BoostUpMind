@@ -104,3 +104,9 @@ rb.shadow{
 .container{
   width: 400px;
 }
+#wordSearch{
+  width: 100%;
+  height: 20px;
+  font-size: 18px;
+  margin-top: 10px;
+}

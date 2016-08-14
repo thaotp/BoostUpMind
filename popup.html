@@ -29,6 +29,9 @@
         <option value='kanji'>Kanji</option>
         <option value='grammar'>Grammar</option>
       </select>
+      <div>
+        <input id='wordSearch' type='text' />
+      </div>
     </div>
     <div class="content">
       <ul id="js-w">
@@ -49,7 +52,7 @@
       </ruby>
       <span>{%= o.mean %}</span>
       <div class='span'>{%= o.kanji%} {%= o.kanji_note %}</div>
-      <input class='js-inp input-type' data-index='{%= o.index %}' data-correct='{%= o.name_jp %}' type='text'/>
+      <input class='js-inp input-type' data-index='{%= o.index %}' data-correct='{%= o.name_jp %}' data-romaji='{%= o.romanji %}' type='text'/>
     </a>
   </li>
 </script>

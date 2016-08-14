@@ -55,7 +55,7 @@ function BoostUpBrand(options) {
     document.getElementById('js-type').value = options.settings['boost:params'].type
     document.getElementById('js-lesson').value = options.settings['boost:params'].lesson
 
-
+    module.wordSearch();
 
 
   }
@@ -69,7 +69,9 @@ function BoostUpBrand(options) {
     $('.js-inp').on('keydown', function(e){
       if(e.keyCode == 13){
         var correct = $(e.currentTarget).data('correct')
-        if($(e.currentTarget).val() == correct){
+        var romaji =  $(e.currentTarget).data('romaji')
+        var value = $(e.currentTarget).val()
+        if(value == correct || value == romaji ){
           $(e.currentTarget).val('')
         }
       }
@@ -147,6 +149,42 @@ function BoostUpBrand(options) {
     $(e.target).find('.js-inp').show()
     $(e.target).find('.js-inp').focus()
 
+  }
+
+  module.wordSearch = function(){
+    var minlength = 2;
+    var searchRequest = null;
+    $("#wordSearch").focus();
+    $("#wordSearch").keyup(function () {
+        $('.js-w').html('')
+        var _this = this,
+        value = $(this).val().trim();
+        if (value.length >= minlength ) {
+          if (searchRequest != null) searchRequest.abort();
+          searchRequest = $.ajax({
+            type: "GET",
+            url: "https://jp-learn.herokuapp.com/api/v1/words/search",
+            data: {
+                'word' : value
+            },
+            dataType: "text",
+            success: function(data){
+              module.renderResults(JSON.parse(data))
+            }
+          });
+        }else if(value.length == 0){
+          module.renderResults(options.data)
+        }
+    });
+  }
+
+  module.renderResults = function(words){
+    var content = ''
+    $.each(words, function(index, word){
+      word.index = index
+      content += tmpl("js-words", word);
+    });
+    document.getElementById('js-w').innerHTML = content;
   }
 
 }
