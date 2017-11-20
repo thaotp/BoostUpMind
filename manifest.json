@@ -4,7 +4,8 @@
       "128": "brand.png"
     },
     "permissions": [
-       "storage", "https://jp-learn.herokuapp.com/api/v1/randoms/boost"
+       "storage", "https://jp-learn.herokuapp.com/api/v1/randoms/boost",
+       "storage", "http://localhost:5000/api/v1/randoms/boost"
      ],
     "description":              "BoostUp",
     "name":                     "BoostUp",

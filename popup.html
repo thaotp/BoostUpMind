@@ -11,23 +11,17 @@
   <div class="container">
     <div class='header'>
       <select id="js-lesson" class="pure-input-1-2 js-select">
-        <option value='1'>1</option>
-        <option value='2'>2</option>
-        <option value='3'>3</option>
-        <option value='4'>4 </option>
-        <option value='5'>5 </option>
-        <option value='6'>6 </option>
-        <option value='7'>7 </option>
-        <option value='8'>8 </option>
-        <option value='9'>9 </option>
-        <option value='10'>10 </option>
-        <option value='11'>11 </option>
       </select>
       <select id="js-type" class="pure-input-1-2 js-select">
         <option value='word'>Word</option>
         <option value='shadow'>Shadow</option>
         <option value='kanji'>Kanji</option>
         <option value='grammar'>Grammar</option>
+      </select>
+      <select id="js-display" class="pure-input-1-2 js-select">
+        <option value='all'>All</option>
+        <option value='hiragana'>Hiragana</option>
+        <option value='mean'>Mean</option>
       </select>
       <div>
         <input id='wordSearch' type='text' />
@@ -42,23 +36,23 @@
 </body>
 <script type="text/x-tmpl" id="js-words">
   <li>
-    <a href="javascript:void(0)" class='js-in'>
+    <div class='co js-in'>
       <ruby>
-        <rb class='text-style'>
-           .{%= o.name_jp %}
+        <rb class='text-style c-hiragana'>
+          {%= o.lesson_id.match(/\d+/g).join('') %}.{%= ++o.index%} {%= o.hiragana %}
         </rb>
         <rp>/</rp>
-        <rt>{%= o.romanji %}</rt>
+        <rt>{%= o.kanji %}</rt>
       </ruby>
-      <span>{%= o.mean %}</span>
-      <div class='span'>{%= o.kanji%} {%= o.kanji_note %}</div>
-      <input class='js-inp input-type' data-index='{%= o.index %}' data-correct='{%= o.name_jp %}' data-romaji='{%= o.romanji %}' type='text'/>
-    </a>
+      <span class='c-mean'>{%= o.mean %}</span>
+      <div class='span'><i class='counter'>{%= o.counter %}</i><i>.{%= o.id %}</i> .{%= o.cn_mean %}</div>
+      <input class='js-inp input-type' data-index='{%= o.index %}' data-correct='{%= o.correct.replace(/\[/, '').replace(/]/, '').replace(/～/, '').trim() %}' data-romaji='{%= o.roumaji.replace(/\[/, '').replace(/]/, '').replace(/～/, '').trim() %}' type='text'/>
+    </div>
   </li>
 </script>
 <script type="text/x-tmpl" id="js-shadow">
   <li>
-    <a href="javascript:void(0)" class='js-in'>
+    <a href="javascript:void(0)" class='co js-in'>
       <ruby>
         <rb class='shadow'>
            {%= o.answer %}-{%= o.answer_romaji %}
@@ -68,6 +62,40 @@
       </ruby>
 
     </a>
+  </li>
+</script>
+<script type="text/x-tmpl" id="js-kanji">
+  <li>
+    <div class='js-in co'>
+      <ruby>
+        <rb class='text-style'>
+           {%= o.jp_mean %}
+        </rb>
+        <rp>/</rp>
+        <rt class='kanji'>{%= o.kanji %}</rt>
+      </ruby>
+      <span>{%= o.id %}.{%= o.vn_mean %}</span>
+      <div class='span hanviet'>{%= o.hanviet %}</div>
+    </div>
+  </li>
+</script>
+
+<script type="text/x-tmpl" id="js-grammars">
+  <li>
+    <div class='js-in grammars co'>
+      <div class='text-style'>{%= o.title %}</div>
+      {% for (var i=0; i<o.uses.length; i++) { %}
+          <span class='blue'>{%=o.uses[i]%}</span>
+      {% } %}
+      <span class=''> * {%= o.tag %}</span>
+      <span class=''> - {%= o.mean %}</span>
+      <span class=''> - {%= o.note %}</span>
+
+      {% for (var i=0; i<o.examples.length; i++) { %}
+        <span class=''>{%= o.examples[i] %}</span>
+      {% } %}
+      <div class='span'>{%= o.level %}.{%= o.id %}</div>
+    </div>
   </li>
 </script>
 
