@@ -4,22 +4,15 @@
 
     'use strict';
 
-    // var url = {
-    //   words: 'https://jp-learn.herokuapp.com/api/v1/words',
-    //   boost: 'https://jp-learn.herokuapp.com/api/v1/randoms/boost'
-    // }
-    var url = {
-      words: 'http://localhost:5000/api/v1/words',
-      boost: 'http://localhost:5000/api/v1/randoms/boost'
-    }
-
     var fetchRecords = function(items, callback){
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", url.boost + '?type='+items['boost:params'].type+'&lesson='+items['boost:params'].lesson, true);
+      xhr.overrideMimeType("application/json");
+      xhr.open('GET', 'words.json', true);
+      // xhr.open("GET", url.boost + '?type='+items['boost:params'].type+'&lesson='+items['boost:params'].lesson, true);
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
           var options = {}
-          options.data = JSON.parse(xhr.responseText);
+          options.data = _.filter(JSON.parse(xhr.responseText), {'lesson_id': items['boost:params'].lesson})
           options.settings = items
           callback(options)
         }
@@ -30,6 +23,10 @@
     document.addEventListener('DOMContentLoaded', function () {
       chrome.storage.local.get('boost:params', function(items) {
         if (!chrome.runtime.error) {
+          var rootItems = {'boost:params': {lesson: 1, type: 'word'}}
+          if(_.isEmpty(items)){
+            items = rootItems
+          }
           fetchRecords(items, function(options){
             var boostUpBrand = new BoostUpBrand(options)
             boostUpBrand.init()
@@ -62,7 +59,7 @@ function BoostUpBrand(options) {
     module.filterDisplay(options.settings['boost:params'].display)
     // Filter render data
     module.filterRender(options.settings['boost:params'].type)
-    document.body.scrollTop = options.settings['boost:params'].pos
+    $('html').scrollTop(options.settings['boost:params'].pos)
     document.getElementById('js-lesson').value = options.settings['boost:params'].lesson
     module.wordSearch();
     module.bindTabtoNext();
@@ -88,7 +85,7 @@ function BoostUpBrand(options) {
     })
 
     $('#js-w li').on('click', function(e){
-      module.saveOptions({pos: document.body.scrollTop})
+      module.saveOptions({pos: $('html').scrollTop()})
     });
   }
 
@@ -120,14 +117,14 @@ function BoostUpBrand(options) {
   }
 
   module.fetchRecords = function(items, callback){
-    // var url = 'https://jp-learn.herokuapp.com/api/v1/randoms/boost'
-    var url = 'http://localhost:5000/api/v1/randoms/boost'
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", url + '?type='+items['boost:params'].type+'&lesson='+items['boost:params'].lesson, true);
+    xhr.overrideMimeType("application/json");
+    xhr.open('GET', 'words.json', true);
+    // xhr.open("GET", url.boost + '?type='+items['boost:params'].type+'&lesson='+items['boost:params'].lesson, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         var options = {}
-        options.data = JSON.parse(xhr.responseText);
+        options.data = _.filter(JSON.parse(xhr.responseText), {'lesson_id': items['boost:params'].lesson})
         options.settings = items
         callback(options)
       }
@@ -163,7 +160,7 @@ function BoostUpBrand(options) {
   }
 
   module.wordSearch = function(){
-    var minlength = 2;
+    var minlength = 1;
     if(options.settings['boost:params'].type == 'kanji') minlength = -1;
     var searchRequest = null;
     $("#wordSearch").focus();
@@ -175,8 +172,7 @@ function BoostUpBrand(options) {
           if (searchRequest != null) searchRequest.abort();
           searchRequest = $.ajax({
             type: "GET",
-            // url: "https://jp-learn.herokuapp.com/api/v1/words/search",
-            url: "http://localhost:5000/api/v1/words/search",
+            url: "words.json",
             data: {
                 'word' : value,
                 'type' : document.getElementById('js-type').value,
@@ -184,7 +180,8 @@ function BoostUpBrand(options) {
             },
             dataType: "text",
             success: function(data){
-              module.renderResults(JSON.parse(data))
+              var cont = _.filter(JSON.parse(data), function(o) { return o.roumaji.indexOf(value) > -1 || o.kanji.indexOf(value) > -1 || o.hiragana .indexOf(value) > -1; });
+              module.renderResults(cont)
             }
           });
         }else if(value.length == 0){
@@ -231,6 +228,8 @@ function BoostUpBrand(options) {
       $('#js-w').removeClass('mean').addClass('hiragana')
     }else if(display == 'mean'){
       $('#js-w').removeClass('hiragana').addClass('mean')
+    }else if(display == 'invisible'){
+      $('#js-w').addClass('hiragana mean')
     }else{
       $('#js-w').removeClass('hiragana mean')
     }

@@ -4,6 +4,7 @@
   <link type="text/css" href="popup.css" rel="stylesheet">
   <script type="text/javascript" src="tmpl.min.js"></script>
   <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+  <script type="text/javascript" src="lodash.min.js"></script>
   <script type="text/javascript" src="popup.js"></script>
 
 </head>
@@ -12,7 +13,7 @@
     <div class='header'>
       <select id="js-lesson" class="pure-input-1-2 js-select">
       </select>
-      <select id="js-type" class="pure-input-1-2 js-select">
+      <select id="js-type" class="pure-input-1-2 js-select hidden">
         <option value='word'>Word</option>
         <option value='shadow'>Shadow</option>
         <option value='kanji'>Kanji</option>
@@ -22,6 +23,7 @@
         <option value='all'>All</option>
         <option value='hiragana'>Hiragana</option>
         <option value='mean'>Mean</option>
+        <option value='invisible'>Invisible</option>
       </select>
       <div>
         <input id='wordSearch' type='text' />

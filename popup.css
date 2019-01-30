@@ -153,3 +153,6 @@ rt.kanji{
 .grammars .blue{
   color: blue;
 }
+.hidden{
+  display: none;
+}
